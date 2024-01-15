@@ -1,4 +1,4 @@
-name: nodejs
+name: golang
 
 on:
   push:
@@ -10,8 +10,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: gke-fade-rosyad    # Add your cluster name here.
-  GKE_ZONE: us-central1-b   # Add your cluster zone here.
-  DEPLOYMENT_NAME: discord-integrator # Add your deployment name here.
+  GKE_ZONE: us-central1   # Add your cluster zone here.
   IMAGE: discord-integrator
 
 jobs:
@@ -32,8 +31,8 @@ jobs:
 
     # Configure Docker to use the gcloud command-line tool as a credential
     # helper for authentication
-    - run: |-
-        gcloud --quiet auth configure-docker
+    # - run: |-
+    #     gcloud --quiet auth configure-docker
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
@@ -42,12 +41,23 @@ jobs:
       uses: docker/setup-buildx-action@v3
 
     # Get the GKE credentials so we can deploy to the cluster
-    - name: 
-      uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
+    # - name: 
+    #   uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
+    #   with:
+    #     cluster_name: ${{ env.GKE_CLUSTER }}
+    #     location: ${{ env.GKE_ZONE }}
+    #     credentials: ${{ secrets.GKE_SA_KEY }}
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: ${{ secrets.GKE_SA_KEY }}
+        # service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
+
+    - id: 'get-credentials'
+      uses: 'google-github-actions/get-gke-credentials@v1'
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_ZONE }}
-        credentials: ${{ secrets.GKE_SA_KEY }}
 
     # Build the Docker image
     - name: Login to Docker Hub
@@ -59,15 +69,15 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context: ./service/discord-integrator
+        context: ./service/${{ env.IMAGE }}
         platforms: linux/amd64
         push: true
-        tags: faderosyad/discord-integrator:latest
+        tags: faderosyad/${{ env.IMAGE }}:latest
 
     # Deploy the Docker image to the GKE cluster
-    # - name: Deploy
-    #   run: |-
-    #     sed -i s#IMAGE#faderosyad/$IMAGE:latest deployment.yaml
-    #     kubectl apply -f -
-    #     kubectl rollout status deployment/$DEPLOYMENT_NAME
-    #     kubectl get services -o wide
+    - name: Deploy
+      run: |-
+        ls -a
+        sed -i s#IMAGE#faderosyad/${{ env.IMAGE }}:latest#g ./service/${{ env.IMAGE }}/k8s/deployment.yaml
+        kubectl apply -f ./service/${{ env.IMAGE }}/k8s
+        kubectl rollout status deployment/${{ env.IMAGE }}

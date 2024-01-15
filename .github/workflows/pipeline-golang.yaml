@@ -69,7 +69,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context: ./service/gcloud-proxy
+        context: ./service/${{ env.IMAGE }}
         platforms: linux/amd64
         push: true
         tags: faderosyad/${{ env.IMAGE }}:latest
@@ -78,6 +78,6 @@ jobs:
     - name: Deploy
       run: |-
         ls -a
-        sed -i s#IMAGE#faderosyad/${{ env.IMAGE }}:latest#g ./service/gcloud-proxy/k8s/deployment.yaml
-        kubectl apply -f ./service/gcloud-proxy/k8s
-        kubectl rollout status ${{ env.IMAGE }}
+        sed -i s#IMAGE#faderosyad/${{ env.IMAGE }}:latest#g ./service/${{ env.IMAGE }}/k8s/deployment.yaml
+        kubectl apply -f ./service/${{ env.IMAGE }}/k8s
+        kubectl rollout status deployment/${{ env.IMAGE }}
