@@ -1,6 +1,5 @@
 import 'dotenv/config';
-import { getRPSChoices,  } from './game.js';
-import { getENVChoices,  } from './envi.js';
+import { getENVChoices,  } from './environment.js';
 import { capitalize, InstallGlobalCommands } from './utils.js';
 
 function createCommandENVChoices() {
@@ -17,13 +16,6 @@ function createCommandENVChoices() {
   return commandChoices;
 }
 
-// Simple test command
-const TEST_COMMAND = {
-  name: 'test',
-  description: 'Basic command',
-  type: 1,
-};
-
 const INFRASWITCH_COMMAND = {
   name: 'infraswitch',
   description: 'Infraswitch command',
@@ -39,6 +31,6 @@ const INFRASWITCH_COMMAND = {
   type: 1,
 };
 
-const ALL_COMMANDS = [TEST_COMMAND, INFRASWITCH_COMMAND];
+const ALL_COMMANDS = [INFRASWITCH_COMMAND];
 
 InstallGlobalCommands(process.env.APP_ID, ALL_COMMANDS);

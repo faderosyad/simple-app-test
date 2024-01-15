@@ -1,6 +1,11 @@
 import 'dotenv/config';
 import fetch from 'node-fetch';
 import { verifyKey } from 'discord-interactions';
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+
+global.require = require;
 
 export function VerifyDiscordRequest(clientKey) {
   return function (req, res, buf, encoding) {
@@ -51,17 +56,38 @@ export async function InstallGlobalCommands(appId, commands) {
   }
 }
 
-// Simple method that returns a random emoji from list
-export function getRandomEmoji() {
-  const emojiList = ['😭','😄','😌','🤓','😎','😤','🤖','😶‍🌫️','🌏','📸','💿','👋','🌊','✨'];
-  return emojiList[Math.floor(Math.random() * emojiList.length)];
-}
-
-export function getRandomStatus() {
-  const statusList = ['Healthy', 'Error', 'Scaled'];
-  return statusList[Math.floor(Math.random() * statusList.length)];
-}
-
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function callForTurnOff(){
+  const http = require('http'); 
+  http.get('http://localhost:8080/off', res => {
+  let data = [];
+  const headerDate = res.headers && res.headers.date ? res.headers.date : 'no response date';
+  console.log('Status Code:', res.statusCode);
+  console.log('Date in Response header:', headerDate);
+
+  res.on('data', chunk => {
+    data.push(chunk);
+  });
+}).on('error', err => {
+  console.log('Error: ', err.message);
+});
+}
+
+export function callForTurnOn(){
+  const http = require('http'); 
+  http.get('http://localhost:8080/on', res => {
+  let data = [];
+  const headerDate = res.headers && res.headers.date ? res.headers.date : 'no response date';
+  console.log('Status Code:', res.statusCode);
+  console.log('Date in Response header:', headerDate);
+
+  res.on('data', chunk => {
+    data.push(chunk);
+  });
+}).on('error', err => {
+  console.log('Error: ', err.message);
+});
 }
