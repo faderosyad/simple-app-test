@@ -1,6 +1,7 @@
 # Getting Started app for Discord
 # trigger pipeline 1
 # trigger pipeline 2
+# trigger pipeline 3
 
 This project contains a basic rock-paper-scissors-style Discord app written in JavaScript, built for the [getting started guide](https://discord.com/developers/docs/getting-started).
 
