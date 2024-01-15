@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: gcloud-proxy
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: gcloud-proxy
