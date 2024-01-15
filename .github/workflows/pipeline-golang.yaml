@@ -11,7 +11,6 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: gke-fade-rosyad    # Add your cluster name here.
   GKE_ZONE: us-central1   # Add your cluster zone here.
-  DEPLOYMENT_NAME: gcloud-proxy # Add your deployment name here.
   IMAGE: gcloud-proxy
 
 jobs:
@@ -81,4 +80,4 @@ jobs:
         ls -a
         sed -i s#IMAGE#faderosyad/${{ env.IMAGE }}:latest#g ./service/gcloud-proxy/k8s/deployment.yaml
         kubectl apply -f ./service/gcloud-proxy/k8s
-        kubectl rollout status ./service/gcloud-proxy/deployment/${{ env.DEPLOYMENT_NAME }}
+        kubectl rollout status ${{ env.IMAGE }}
