@@ -25,5 +25,5 @@ spec:
               cpu: 512m
               memory: 512Mi
             limits:
-              cpu: 512mm
+              cpu: 512m
               memory: 512Mi
