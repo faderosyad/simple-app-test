@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: discord-integrator
+  labels:
+    app: discord-integrator
+spec:
+  ports:
+    - port: 3000
+      name: rest
+  selector:
+    app: discord-integrator

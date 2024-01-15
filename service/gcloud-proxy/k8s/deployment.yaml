@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcloud-proxy
+spec:
+  selector:
+    matchLabels:
+      app: gcloud-proxy
+  template:
+    metadata:
+      labels:
+        app: gcloud-proxy
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    spec:
+      containers:
+        - name: gcloud-proxy
+          image: IMAGE
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 512m
+              memory: 512Mi
+            limits:
+              cpu: 512mm
+              memory: 512Mi

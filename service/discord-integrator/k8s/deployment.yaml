@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discord-integrator
+spec:
+  selector:
+    matchLabels:
+      app: discord-integrator
+  template:
+    metadata:
+      labels:
+        app: discord-integrator
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    spec:
+      containers:
+        - name: discord-integrator
+          image: IMAGE
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 512m
+              memory: 512Mi
+            limits:
+              cpu: 512mm
+              memory: 512Mi
