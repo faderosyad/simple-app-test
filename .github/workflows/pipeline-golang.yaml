@@ -59,7 +59,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context: ./gcloud-proxy
+        context: ./service/gcloud-proxy
         push: true
         tags: faderosyad/gcloud-proxy:latest
 

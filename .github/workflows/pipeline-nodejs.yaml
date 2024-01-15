@@ -59,7 +59,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context: ./discord-integrator
+        context: ./service/discord-integrator
         push: true
         tags: faderosyad/discord-integrator:latest
 
