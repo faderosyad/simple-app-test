@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: discord-integrator
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: discord-integrator
@@ -21,8 +22,8 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              cpu: 512m
-              memory: 512Mi
+              cpu: 100m
+              memory: 1Gi
             limits:
-              cpu: 512mm
-              memory: 512Mi
+              cpu: 100m
+              memory: 1Gi
