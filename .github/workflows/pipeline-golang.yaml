@@ -78,7 +78,6 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
-        sed -i s#IMAGE#faderosyad/${{ env.IMAGE }}:latest deployment.yaml
+        sed -i s#IMAGE#faderosyad/${{ env.IMAGE }}:latest#g service/gcloud-proxy/deployment.yaml
         kubectl apply -f -
-        kubectl rollout status deployment/${{ env.DEPLOYMENT_NAME }}
-        kubectl get services -o wide
+        kubectl rollout status service/gcloud-proxy/deployment/${{ env.DEPLOYMENT_NAME }}
