@@ -73,12 +73,12 @@ jobs:
         context: ./service/gcloud-proxy
         platforms: linux/amd64
         push: true
-        tags: faderosyad/gcloud-proxy:latest
+        tags: faderosyad/$IMAGE:latest
 
     # Deploy the Docker image to the GKE cluster
-    # - name: Deploy
-    #   run: |-
-    #     sed -i s#IMAGE#faderosyad/$IMAGE:latest deployment.yaml
-    #     kubectl apply -f -
-    #     kubectl rollout status deployment/$DEPLOYMENT_NAME
-    #     kubectl get services -o wide
+    - name: Deploy
+      run: |-
+        sed -i s#IMAGE#faderosyad/$IMAGE:latest deployment.yaml
+        kubectl apply -f -
+        kubectl rollout status deployment/$DEPLOYMENT_NAME
+        kubectl get services -o wide
