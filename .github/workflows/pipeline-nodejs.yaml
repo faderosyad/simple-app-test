@@ -1,4 +1,4 @@
-name: golang
+name: nodejs
 
 on:
   push:
