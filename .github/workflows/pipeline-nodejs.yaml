@@ -60,6 +60,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: ./service/discord-integrator
+        platforms: linux/amd64
         push: true
         tags: faderosyad/discord-integrator:latest
 
