@@ -1,6 +1,4 @@
 # Getting Started app for Discord
-## edited by faderosyad on 2024
-### All Credit to Discord Team
 
 This project contains a basic rock-paper-scissors-style Discord app written in JavaScript, built for the [getting started guide](https://discord.com/developers/docs/getting-started).
 
