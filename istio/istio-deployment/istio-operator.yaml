@@ -1,0 +1,81 @@
+---
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: fade-rosyad-istio
+spec:
+  profile: default
+  components:
+    pilot:
+      k8s:
+        podAnnotations:
+          cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        podDisruptionBudget:
+          minAvailable: 1
+          selector:
+            matchLabels:
+              app: istiod
+              istio: istiod
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 50m
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+        namespace: istio-system
+        label:
+          app: istio-ingressgateway
+          istio: istio-ingressgateway
+        k8s:
+          podAnnotations:
+            cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+          replicaCount: 1
+          strategy:
+            rollingUpdate:
+              maxSurge: 100%
+              maxUnavailable: 25%
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm: 
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - istio-ingressgateway
+                    topologyKey: topology.kubernetes.io/zone
+                  weight: 50
+          podDisruptionBudget:
+            minAvailable: 1
+            selector:
+              matchLabels:
+                app: istio-ingressgateway
+                istio: istio-ingressgateway
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              cpu: 50m
+              memory: 256Mi
+          service:
+            externalTrafficPolicy: Local
+            ports:
+              - name: http2
+                port: 80
+              - name: https
+                port: 443
+            loadBalancerIP: "34.171.120.56"
+  meshConfig:
+    accessLogFile: /dev/stdout
+    accessLogEncoding: "JSON"
+    defaultConfig:
+      holdApplicationUntilProxyStarts: true
+  values:
+    gateways:
+      istio-ingressgateway:
+        runAsRoot: true
+...
