@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: gcloud-proxy
+spec:
+  gateways:
+  - fade-rosyad-gateway-api
+  hosts:
+  - 34-171-120-56.sslip.io
+  http:
+  - match:
+    - uri:
+        prefix: /on
+    - uri:
+        prefix: /off
+    - uri:
+        prefix: /status
+    route:
+    - destination:
+        host: gcloud-proxy
+        port:
+          number: 8080

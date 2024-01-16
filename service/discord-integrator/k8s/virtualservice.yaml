@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: discord-integrator
+spec:
+  gateways:
+  - fade-rosyad-gateway-api
+  hosts:
+  - 34-171-120-56.sslip.io
+  http:
+  - match:
+    - uri:
+        prefix: /interaction
+    route:
+    - destination:
+        host: discord-integrator
+        port:
+          number: 3000
