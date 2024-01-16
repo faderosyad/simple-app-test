@@ -5,5 +5,5 @@ node_modules
 **/**/*.tfstate.backup
 infra/**/.terraform
 **/**/vendor/
-**/**/istio-**
+**/**/istio-1*
 **/cert-manager
