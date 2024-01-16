@@ -43,3 +43,10 @@ module "cloud-nat" {
   create_router = true
   router        = "${var.product_id}-router"
 }
+
+resource "google_compute_address" "external_ip_address" {
+
+  name         = "external-ip-address-istio-lb-api-${var.product_id}"
+  region       = var.region
+  network_tier = "PREMIUM"
+}
